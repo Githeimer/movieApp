@@ -1,12 +1,52 @@
-import { Text, TextBase, View } from "react-native";
+import { Image, View, StyleSheet, StatusBar, ScrollView, Text } from "react-native";
 import { Link } from "expo-router";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import SearchBar from "@/components/SearchBar";
+import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import * as NavigationBar from "expo-navigation-bar"
+
 
 export default function Index() {
-  const [movieName,setMovieName] = useState<string>();
+  // this thing will be used to set the notification bar color and the bottom part ko gesture / navigation
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync("#030014");
+    NavigationBar.setButtonStyleAsync("light");
+  }, []);
+  const router= useRouter();
   return (
-    <View className="flex-1 justify-center items-center ">
-        <Text className="text-5xl">Welcome Niggu</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#030014" }}>
+    <View className="flex-1 bg-[#030014]">
+    
+      <StatusBar translucent={true} animated={true} backgroundColor={"#ffffff00"} barStyle={"light-content"}></StatusBar>
+      <LinearGradient
+        colors={["rgba(155,55,255,0.12)", "rgba(0,9,50,0.01)"]}
+        style={styles.glow}
+      /> 
+      <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{minHeight:"100%",paddingBottom:10}}>
+          <Image source={require("@/assets/images/cool.webp")} className="w-12 h-12 mt-10 mb-1 mx-auto"></Image>
+
+          <View className="flex-1 mt-5">
+            <SearchBar onPress={()=>router.push("/search")}
+              placeholder={"Search for a movie"}
+              ></SearchBar>
+          </View>
+        </ScrollView>
     </View>
-  ); 
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  glow: {
+    position: "absolute",
+    top: -150,
+    left: -5,
+    width: 400,
+    height: 400,
+    borderRadius: 200,
+    zIndex: 0,
+  
+  },
+});

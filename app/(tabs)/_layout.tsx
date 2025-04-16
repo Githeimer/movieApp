@@ -2,6 +2,8 @@ import { View, Text, ImageBackground } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import {AntDesign} from "@expo/vector-icons"
+import * as NavigationBar from "expo-navigation-bar"
+import { useEffect } from 'react'
 
 interface TabIconProps{
     focused:boolean
@@ -12,21 +14,27 @@ interface TabIconProps{
 }
 
 const TabIconComponent = ({ focused, iconName, title, size, color }: TabIconProps) => {
+    useEffect(() => {
+      NavigationBar.setBackgroundColorAsync("#030014");
+      NavigationBar.setButtonStyleAsync("light");
+    }, []);
     return (
       <View className='items-center justify-center '>
+        
         {focused ? (
           <ImageBackground
+          
             source={require("@/assets/images/gradient.png")}
-            className=' rounded-3xl overflow-hidden  min-h-[4.4rem] min-w-[112px]'
+            className=' rounded-3xl overflow-hidden  min-h-[4rem] min-w-[112px] '
             resizeMode="cover"
           >
             <View className='flex flex-row justify-center items-center h-full mt-1.5'>
-            <AntDesign size={20} name={iconName} color={"#ffffff"} />
-            <Text className='text-white ml-1'>{title}</Text>
+            <AntDesign size={17} name={iconName} className='text-dark-100 px-2' />
+            <Text className='text-dark-100 font-semibold text-md pr-2'>{title}</Text>
             </View>
           </ImageBackground>
         ) : (
-          <AntDesign size={20} name={iconName} color={"gray"} className='mt-1.5'/>
+          <AntDesign size={17} name={iconName} color={"gray"} className='mt-1.5'/>
         )}
       </View>
     );
@@ -52,7 +60,8 @@ const _layout = () => {
                 height:52,
                 overflow:'hidden',
                 borderWidth:1,
-                borderColor:"#0f0323"
+                borderColor:"#0f0323",
+                position:'absolute'
             }
         }}
         >
